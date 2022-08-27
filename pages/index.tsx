@@ -1,6 +1,14 @@
 import type { NextPage } from "next";
 import { AppShell, Button, Header, Navbar } from "@mantine/core";
-import { useSession } from "next-auth/react";
+import { useSession, signOut, signIn } from "next-auth/react";
+
+const SignInButton = () => {
+  return <Button onClick={() => signIn()}>Sign In</Button>;
+};
+
+const SignOutButton = () => {
+  return <Button onClick={() => signOut()}>Sign Out</Button>;
+};
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
@@ -31,6 +39,8 @@ const Home: NextPage = () => {
     >
       <div>
         <>{status}</>
+        {status === "authenticated" && SignOutButton()}
+        {status === "unauthenticated" && SignInButton()}
       </div>
     </AppShell>
   );
